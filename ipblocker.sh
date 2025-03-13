@@ -73,7 +73,7 @@ update_whitelist_core() {
     cd /root/cron || exit 1
 
     [[ "$silent_mode" != "silent" ]] && echo "正在下载白名单文件..."
-    if ! wget -q "https://raw.githubusercontent.com/mrzj110/ipset_cq/refs/heads/main/CQ?token=GHSAT0AAAAAAC6PMQP7JDPUMUII3TMEXXIKZ6SSGQQ" -O cq_whitelist.txt.tmp; then
+    if ! wget -q "https://raw.githubusercontent.com/mrzj110/ipset_cq/refs/heads/main/CQ" -O cq_whitelist.txt.tmp; then
         [[ "$silent_mode" != "silent" ]] && echo -e "${RED}下载失败，使用上次的白名单${NC}"
         logger "下载失败，使用上次的白名单"
         return 1
@@ -158,7 +158,7 @@ iptables -A WHITELIST -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A WHITELIST -j DROP
 
 # 下载并处理 IP 白名单
-wget -q "https://raw.githubusercontent.com/mrzj110/ipset_cq/refs/heads/main/CQ?token=GHSAT0AAAAAAC6PMQP7JDPUMUII3TMEXXIKZ6SSGQQ" -O cq_whitelist.txt.tmp
+wget -q "https://raw.githubusercontent.com/mrzj110/ipset_cq/refs/heads/main/CQ" -O cq_whitelist.txt.tmp
 
 if [ -s cq_whitelist.txt.tmp ]; then
     mv cq_whitelist.txt.tmp cq_whitelist.txt
@@ -178,7 +178,7 @@ cd /root/cron || exit 1
 logger "开始更新 IP 白名单"
 
 # 下载失败时使用备份文件
-if ! wget -q "https://raw.githubusercontent.com/mrzj110/ipset_cq/refs/heads/main/CQ?token=GHSAT0AAAAAAC6PMQP7JDPUMUII3TMEXXIKZ6SSGQQ" -O cq_whitelist.txt.tmp; then
+if ! wget -q "https://raw.githubusercontent.com/mrzj110/ipset_cq/refs/heads/main/CQ" -O cq_whitelist.txt.tmp; then
     logger "下载失败，使用上次的白名单"
     exit 1
 fi
